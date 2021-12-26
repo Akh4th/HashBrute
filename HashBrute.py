@@ -5,12 +5,37 @@ import os.path
 import time
 
 
+def check(kind, hsh):
+    try:
+        with open(kind + "_table.txt", "r") as file:
+            for line in file.readlines():
+                if line.split(" ")[0] == hsh:
+                    print(c("\nHASH WAS FOUND ON DATABASE !", 'yellow'))
+                    time.sleep(1.5)
+                    print(c(line, "green"))
+                    return True
+        return False
+    except Exception as e:
+        print(e)
+
+
+def write(kind, hsh, word):
+    with open(kind + "_table.txt", "r") as file:
+        if hsh not in file.read():
+            with open(kind + "_table.txt", "a") as file1:
+                file1.write(hsh + " = " + word)
+                file1.close()
+            file.close()
+
+
 def sha512(file, hsh):
     try:
         i = 0
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("SHA512", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
+        if check("SHA512", hsh):
+            return True
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -21,6 +46,7 @@ def sha512(file, hsh):
                     x = h.sha512(passwd.encode())
                     if x.hexdigest() == hsh:
                         print(c("\nDecryption is over !\n", 'red') + c("Decrypted string : ", 'yellow') + c(passwd, 'green'))
+                        write("SHA512", hsh, passwd)
                         return True
                     else:
                         continue
@@ -35,6 +61,8 @@ def sha256(file, hsh):
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("SHA256", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
+        if check("SHA256", hsh):
+            return True
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -45,6 +73,7 @@ def sha256(file, hsh):
                     x = h.sha256(passwd.encode())
                     if x.hexdigest() == hsh:
                         print(c("\nDecryption is over !\n", 'red') + c("Decrypted string : ", 'yellow') + c(passwd, 'green'))
+                        write("SHA256", hsh, passwd)
                         return True
                     else:
                         continue
@@ -59,6 +88,8 @@ def sha1(file, hsh):
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("SHA1", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
+        if check("SHA1", hsh):
+            return True
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -69,6 +100,7 @@ def sha1(file, hsh):
                     x = h.sha1(passwd.encode())
                     if x.hexdigest() == hsh:
                         print(c("\nDecryption is over !\n", 'red') + c("Decrypted string : ", 'yellow') + c(passwd, 'green'))
+                        write("SHA1", hsh, passwd)
                         return True
                     else:
                         continue
@@ -83,6 +115,8 @@ def md5(file, hsh):
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("MD5", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ", "red") + c(file, 'green'))
         time.sleep(3)
+        if check("MD5", hsh):
+            return True
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -93,6 +127,7 @@ def md5(file, hsh):
                     x = h.md5(passwd.encode())
                     if x.hexdigest() == hsh:
                         print(c("\nDecryption is over !\n", 'red') + c("Decrypted string : ", 'yellow') + c(passwd, 'green'))
+                        write("MD5", hsh, passwd)
                         return True
                     else:
                         continue
@@ -107,6 +142,8 @@ def ntlm(file, hsh):
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("NTLM", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ", "red") + c(file, 'green'))
         time.sleep(3)
+        if check("NTLM", hsh):
+            return True
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -118,6 +155,7 @@ def ntlm(file, hsh):
                     x = binascii.hexlify(y).decode()
                     if x == hsh:
                         print(c("\nDecryption is over !\n", 'red') + c("Decrypted string : ", 'yellow') + c(passwd, 'green'))
+                        write("NTLM", hsh, passwd)
                         return True
                     else:
                         continue
