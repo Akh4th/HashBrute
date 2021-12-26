@@ -5,3 +5,6 @@ The script will check if hash existed on <hash_type>_table.txt before brute forc
 
 # Available hashes type :
 MD5   ,   SHA1    ,   SHA256    ,   SHA512    ,   NTLM
+
+# Fill_data.py
+Fill_data.py will append your wordlist to your database 
