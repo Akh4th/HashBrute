@@ -36,7 +36,7 @@ elif kind.lower() == "sha1":
     with open(wordlist, "r") as words:
         for line in words.readlines():
             with open(kind.upper() + "_table.txt", "a") as file:
-                x = h.md5(line.encode()).hexdigest()
+                x = h.sha1(line.encode()).hexdigest()
                 if not check(kind, line):
                     file.write(x + " = " + line)
 
@@ -45,7 +45,7 @@ elif kind.lower() == "sha256":
     with open(wordlist, "r") as words:
         for line in words.readlines():
             with open(kind.upper() + "_table.txt", "a") as file:
-                x = h.md5(line.encode()).hexdigest()
+                x = h.sha256(line.encode()).hexdigest()
                 if not check(kind, line):
                     file.write(x + " = " + line)
 
@@ -54,7 +54,7 @@ elif kind.lower() == "sha512":
     with open(wordlist, "r") as words:
         for line in words.readlines():
             with open(kind.upper() + "_table.txt", "a") as file:
-                x = h.md5(line.encode()).hexdigest()
+                x = h.sha512(line.encode()).hexdigest()
                 if not check(kind, line):
                     file.write(x + " = " + line)
 
