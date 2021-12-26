@@ -81,7 +81,7 @@ def md5(file, hsh):
         i = 0
         tim = time.time()
         print(c("STARTED DECRYPTING ", "red") + c("MD5", 'green') + c(" - " ,"red") + c(hsh, "green") + c(" FROM ", "red") + c(file, 'green'))
-        time.sleep(1)
+        time.sleep(3)
         with open(file, 'r') as filename:
             for line in filename.readlines():
                 for passwd in line.split():
@@ -101,8 +101,8 @@ def md5(file, hsh):
 
 
 if __name__ == "__main__":
-    print(c("Welcome to python ", "red") + c("HASH DECRYPTER ", "green") + c("!\n", "red"))
-    time.sleep(1.5)
+    print(c("Welcome to python ", "red") + c("HASH DECRYPTER ", "green") + c("by", "red") + c(" Akh4th", 'blue') + c(" !", 'red'))
+    time.sleep(3)
     # Getting and validating hash file
     hashed = input(c("Hash file name : ", 'yellow'))
     while not os.path.isfile(hashed):
@@ -111,29 +111,42 @@ if __name__ == "__main__":
     # Getting and validating wordlist file
     wordlist = input(c("Wordlist file name : ", 'yellow'))
     while not os.path.isfile(wordlist):
-        wordlist = input(c("File doesn't exist, make sure you use full path !", 'red'))
+        wordlist = input(c("File doesn't exist, make sure you use full path !\n", 'red') + c("Hash file name : ", 'yellow'))
     time.sleep(1)
     # Storing the hash on a variable
     with open(hashed, 'r') as hush:
         hashed = hush.read()
         print(c("\nHASH SUCCESSFULLY LOADED !", "green"))
     time.sleep(1)
+    # counting tries on wordlist
     counts = len(open(wordlist, "r").readlines())
     print(c("WORDLIST SUCCESSFULLY LOADED !\n", "green") + c("TOTAL OF ", "red") + c(counts, "yellow") + c(" tries ahead !\n", "red"))
     time.sleep(1)
+    # Starting brute force according to hash's length
     if len(hashed) == 64:
+        print(c("SHA256 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
         if not sha256(wordlist, hashed):
             print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
             quit()
     elif len(hashed) == 40:
+        print(c("SHA1 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
         if not sha1(wordlist, hashed):
             print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
             quit()
     elif len(hashed) == 32:
+        print(c("MD5 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
         if not md5(wordlist, hashed):
             print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
             quit()
     elif len(hashed) == 128:
+        print(c("SHA512 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
         if not sha512(wordlist, hashed):
             print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
             quit()
+    else:
+        print(c("UNRECOGNIZED HASH FORMAT !\n", 'red') + c("Maybe hash has salt ?", 'yellow'))
+        quit()
