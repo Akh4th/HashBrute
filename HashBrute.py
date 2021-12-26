@@ -8,7 +8,7 @@ def sha512(file, hsh):
     try:
         i = 0
         tim = time.time()
-        print(c("STARTED DECRYPTING ", "red") + c("SHA512", 'green') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
+        print(c("STARTED DECRYPTING ", "red") + c("SHA512", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
         with open(file, 'r') as filename:
             for line in filename.readlines():
@@ -32,7 +32,7 @@ def sha256(file, hsh):
     try:
         i = 0
         tim = time.time()
-        print(c("STARTED DECRYPTING ", "red") + c("SHA256", 'green') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
+        print(c("STARTED DECRYPTING ", "red") + c("SHA256", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
         with open(file, 'r') as filename:
             for line in filename.readlines():
@@ -56,7 +56,7 @@ def sha1(file, hsh):
     try:
         i = 0
         tim = time.time()
-        print(c("STARTED DECRYPTING ", "red") + c("SHA1", 'green') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
+        print(c("STARTED DECRYPTING ", "red") + c("SHA1", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ","red") + c(file, 'green'))
         time.sleep(1)
         with open(file, 'r') as filename:
             for line in filename.readlines():
@@ -80,7 +80,7 @@ def md5(file, hsh):
     try:
         i = 0
         tim = time.time()
-        print(c("STARTED DECRYPTING ", "red") + c("MD5", 'green') + c(" - " ,"red") + c(hsh, "green") + c(" FROM ", "red") + c(file, 'green'))
+        print(c("STARTED DECRYPTING ", "red") + c("MD5", 'blue') + c(" - ", "red") + c(hsh, "green") + c(" FROM ", "red") + c(file, 'green'))
         time.sleep(3)
         with open(file, 'r') as filename:
             for line in filename.readlines():
@@ -98,6 +98,36 @@ def md5(file, hsh):
         return False
     except Exception as e:
         print(f"Error while decrypting !\nError code : {e}")
+
+
+def detect(hsh):
+    if len(hsh) == 64:
+        print(c("SHA256 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
+        if not sha256(wordlist, hsh):
+            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
+            quit()
+    elif len(hsh) == 40:
+        print(c("SHA1 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
+        if not sha1(wordlist, hsh):
+            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
+            quit()
+    elif len(hsh) == 32:
+        print(c("MD5 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
+        if not md5(wordlist, hsh):
+            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
+            quit()
+    elif len(hsh) == 128:
+        print(c("SHA512 DETECTED !!!\n", 'blue'))
+        time.sleep(1)
+        if not sha512(wordlist, hsh):
+            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
+            quit()
+    else:
+        print(c("UNRECOGNIZED HASH FORMAT !\n", 'red') + c("Maybe hash has salt ?", 'yellow'))
+        quit()
 
 
 if __name__ == "__main__":
@@ -123,30 +153,4 @@ if __name__ == "__main__":
     print(c("WORDLIST SUCCESSFULLY LOADED !\n", "green") + c("TOTAL OF ", "red") + c(counts, "yellow") + c(" tries ahead !\n", "red"))
     time.sleep(1)
     # Starting brute force according to hash's length
-    if len(hashed) == 64:
-        print(c("SHA256 DETECTED !!!\n", 'blue'))
-        time.sleep(1)
-        if not sha256(wordlist, hashed):
-            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
-            quit()
-    elif len(hashed) == 40:
-        print(c("SHA1 DETECTED !!!\n", 'blue'))
-        time.sleep(1)
-        if not sha1(wordlist, hashed):
-            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
-            quit()
-    elif len(hashed) == 32:
-        print(c("MD5 DETECTED !!!\n", 'blue'))
-        time.sleep(1)
-        if not md5(wordlist, hashed):
-            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
-            quit()
-    elif len(hashed) == 128:
-        print(c("SHA512 DETECTED !!!\n", 'blue'))
-        time.sleep(1)
-        if not sha512(wordlist, hashed):
-            print(c("NO MATCH FOUND !\n", "red") + c("PLEASE USE ANOTHER WORDLIST !", 'yellow'))
-            quit()
-    else:
-        print(c("UNRECOGNIZED HASH FORMAT !\n", 'red') + c("Maybe hash has salt ?", 'yellow'))
-        quit()
+    detect(hashed)
