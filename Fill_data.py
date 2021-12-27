@@ -72,4 +72,7 @@ while kind.upper() not in choices:
 wordlist = input(c("Wordlist name : ", "blue"))
 while not os.path.isfile(wordlist):
     wordlist = input(c("File doesn't exist, try again ", "red"))
-matching(kind.lower())
+try:
+    matching(kind.lower())
+except Exception as e:
+    print(c("Error while running.\n", "red") + c("Error Code : ", 'yellow') + c(e, "blue"))
