@@ -7,11 +7,14 @@ choices = ['MD5', 'SHA1', 'SHA512', 'SHA256', 'NTLM']
 
 
 def check(kind1, word1):
-    with open(kind1.upper() + "_table.txt", 'r') as file2:
-        for word2 in file2.readlines():
-            if word2.split(" ")[2] == word1:
-                return True
-    return False
+    try:
+        with open(kind1.upper() + "_table.txt", 'r') as file2:
+            for word2 in file2.readlines():
+                if word2.split(" ")[2] == word1:
+                    return True
+        return False
+    except:
+        return False
 
 
 def matching(z):
