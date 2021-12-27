@@ -10,5 +10,5 @@ MD5   ,   SHA1    ,   SHA256    ,   SHA512    ,   NTLM
 Fill_data.py will append your wordlist to your database 
 
 # Requirements
-Python 3.10 ONLY !
+Python 3.10 ONLY !<br />
 pip install -r requirements.txt
